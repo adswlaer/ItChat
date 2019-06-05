@@ -1,0 +1,465 @@
+def login(self, enableCmdQR=False, picDir=None, qrCallback=None,
+        loginCallback=None, exitCallback=None):
+    '''
+        像网页版wechat一样登陆
+        对于登陆
+            - 一个二维码将会被下载并打开
+            - 然后扫描状态被记录，暂停等待你的确认
+            - 最后登陆并显示你的昵称
+        对于参数：
+            - enableCmdQR:在命令行显示二维码
+                - 可以使用整型数来调整奇怪的字符串长度
+            - picDir:存放二维码的地方
+            - qrCallback:需要接受uuid,状态和二维码的方法（？？）
+            - loginCallback:成功登陆后的回调函数
+                - 如果没有设置，则默认为屏幕清空并删除二维码  
+            - exitCallback:登出后的回调函数
+                - 它包含登出的调用
+        用法：
+            import itchat
+            itchat.login()
+            
+        该方法定义在 component/login.py 文件中
+        
+        
+    '''
+    raise NotImplementedError()
+    
+def get_QRuuid(self):
+    '''
+        获取二维码的uuid
+        uuid是二维码的标识
+            - 要登陆，你首先要获得一个uuid
+            - 要下载二维码，你需要传一个uuid给它
+            - 检查登陆状态，uuid也是必须的
+        如果uuid过期了，就换一个
+        
+        该方法定义在 component/login.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def get_QR(self, uuid=None, enableCmdQR=False, picDir=None, qrCallback=None):
+    '''
+        下载并显示二维码
+        参数：
+            - uuid:如果uuid没有指定，你最新得到的uuid将会被使用
+            - enableCmdQR:在命令行显示二维码
+            - picDir:存放二维码的地方
+            - qrCallback:需要接受uuid,状态和二维码的方法（？？）
+            
+        该方法定义在 component/login.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def check_login(self, uuid=None):
+    '''
+        检查登陆状态
+        参数：
+            - uuid:如果uuid没有指定，你最新得到的uuid将会被使用
+        返回值：
+            - 将返回一个字符串
+            - 返回值的含义：
+                - 200：登陆成功
+                - 201：等待按确认
+                - 408：uuid超时
+                - 0：未知错误
+        过程:
+            - 同步url和文件url被设置（？？）
+            - 基本请求被设置
+        阻塞直至得到上面其中一种状态
+        
+        该方法定义在 component/login.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def web_init(self):
+    ''' 
+        获取初始化必要的信息
+        过程：
+            - 自己的账号信息被设置
+            - 邀请开始数被设置（？？）
+            - 同步key被设置（？？）
+            - 部分联系已得到（？？）
+            
+        该方法定义在 component/login.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def show_mobile_login(self):
+    '''
+        显示web微信登陆标志
+        这标志在手机端微信的顶部显示
+        尽管没有调用该方法，有时这标志也被添加
+        
+        该方法定义在 component/login.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def start_receiving(self, finishCallback=None):
+    '''
+        开启一条线程用于核心循环和接收消息
+        参数：
+            - finishCallback:登出后回调
+                - 它包含登出的调用
+        过程：
+            消息：消息被格式化并传给已注册的函数
+            联系：当相关的信息接收后，聊天室被更新
+            
+        该方法定义在 component/login.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def get_msg(self):
+    ''' 获取消息
+        获取：
+            - 方法阻塞一段时间，直到：
+                - 接收到新消息
+                - 或者任意时间
+            - 同步key随返回的同步检查key被更新（？？？）
+            
+        该方法定义在 component/login.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def logout(self):
+    ''' 登出
+        如果核心现在是存活的
+            登出函数会告诉微信后台登出
+        并且核心为下一个登陆做准备
+        
+        该方法定义在 component/login.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def update_chatroom(self, userName, detailedMember=False):
+    ''' 更新聊天室
+        群聊：
+            - 一个群聊需要被更新而变得详细
+            - 详细信息意味着成员，加密id等等
+            - 主循环的自动更新是更加详细的更新
+                - 成员的用户信息也将被填入
+            - 一旦被调用，更新信息将被储存
+        参数：
+            - userName:群聊的用户名key或者它的一个列表
+            - detailedMember:是否获取成员的联系
+        该方法定义在 components/contact.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def update_friend(self, userName):
+    ''' update chatroom
+        朋友聊天
+            - 一旦被调用，更新信息将被储存
+        参数：
+            - userName: 一个朋友的'UserName' key或者它的一个列表
+        该方法定义在 components/contact.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def get_contact(self, update=False):
+    ''' 获取部分的聊天
+        部分
+            - 所有大型平台和朋友都获得
+            - 如果更新，只有星标群聊被获取
+        参数
+            - update: 如果不设置，本地值将被返回
+        返回值
+            - 将返回群聊列表
+        该方法定义在 components/contact.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def get_friends(self, update=False):
+    ''' 
+        获取朋友列表
+        参数
+            - update: 如果不设置，将返回本地值
+        返回值
+            - 将返回一个列表，列表每个元素是朋友信息的字典
+        该方法定义在 components/contact.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def get_chatrooms(self, update=False, contactOnly=False):
+    ''' 
+        获取群聊列表
+        参数
+            - update: 如果不设置，将返回本地值
+            - contactOnly: 如果设置了，只有星标群聊会被返回
+        返回值
+            - 将返回一个列表，列表每个元素是群聊信息的字典
+        该方法定义在 components/contact.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def get_mps(self, update=False):
+    ''' 获取公众平台列表
+        参数：
+            - update:如果不设置，将返回本地值
+        返回值：
+            - 将返回一个列表，列表每个元素是公众平台信息的字典
+        该方法定义在 components/contact.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def set_alias(self, userName, alias):
+    ''' 为朋友设置别名
+        参数
+            - userName: 信息字典的'UserName' key 
+            - alias:新别名
+        该方法定义在 components/contact.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def set_pinned(self, userName, isPinned=True):
+    ''' 固定一个朋友或者群聊
+        参数：
+            - userName: 信息字典中的 'UserName' key 
+            - isPinned: 是否固定
+        该方法定义在 components/contact.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def add_friend(self, userName, status=2, verifyContent='', autoUpdate=True):
+    ''' 添加朋友或者接受好友
+        参数
+            - userName: 朋友信息字典中的 'UserName' 
+            - status：
+                - 添加:status=2
+                - 接受好友：status=3
+            - verifyContent: 问候消息
+            - autoUpdate: 是否自动更新
+        该方法定义在 components/contact.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def get_head_img(self, userName=None, chatroomUserName=None, picDir=None):
+    ''' place for docs
+        参数：
+            - 如果你想获取群聊头部：只设置chatroomUserName
+            - 如果你想获取朋友的头部：只设置userName
+            - 如果你想获取群聊成员的头部，都设置
+        该方法定义在 components/contact.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def create_chatroom(self, memberList, topic=''):
+    ''' 创建群聊
+        创建
+            - 它的频繁调用是被严格限制的
+        参数：
+            - memberList: 成员信息字典组成的列表
+            - topic: 新群聊的主题
+        该方法定义在 components/contact.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def set_chatroom_name(self, chatroomUserName, name):
+    ''' 设置群聊名称
+        设置
+            - 它使得群聊更新
+            - 这意味着详细信息将会被返回到主循环中
+        参数
+            - chatroomUserName: 群聊信息字典的 'UserName' key 
+            - name: 新的群聊名称
+        该方法定义在 components/contact.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def delete_member_from_chatroom(self, chatroomUserName, memberList):
+    ''' 从群聊删除成员
+        删除
+            - 你不能删除你自己
+            - 如果是那样，没有人会被删除
+            - 频繁的删除被严格的限制
+        参数
+            - chatroomUserName: 群聊信息字典的 'UserName' key
+            - memberList: 成员信息字典组成的列表
+        该方法定义在 components/contact.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def add_member_into_chatroom(self, chatroomUserName, memberList,
+        useInvitation=False):
+    ''' 添加成员进入群聊
+        添加
+            - 你不能添加你自己或者已经在群聊的成员
+            - 如果是那样，没有人会被添加
+            - 如果添加后成员数>40，必须使用invitation
+            - 频繁的添加被严格的限制
+        for options
+            - chatroomUserName: 群聊信息字典的 'UserName' key
+            - memberList: 成员信息字典组成的列表
+            - useInvitation: 如果邀请不是必须的，设置该参数
+        该方法定义在 components/contact.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def send_raw_msg(self, msgType, content, toUserName):
+    ''' 很多信息使用一种通用的方法发送
+        demo
+            .. code:: python
+
+                @itchat.msg_register(itchat.content.CARD)
+                def reply(msg):
+                    itchat.send_raw_msg(msg['MsgType'], msg['Content'], msg['FromUserName'])
+
+        这里有一些小诡计，你自己可以发现他们（？？？）
+        但是记住他们是诡计（？？？）
+        该方法定义在 components/messages.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def send_msg(self, msg='Test Message', toUserName=None):
+    ''' 发送纯文本消息
+        参数
+            - msg: 如果包含非ASCII词语在msg中，应该使用unicode
+            - toUserName: 朋友字典的 'UserName' key 
+        该方法定义在 components/messages.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def upload_file(self, fileDir, isPicture=False, isVideo=False):
+    ''' 上传文件到服务器并获取mediaId
+        参数
+            - fileDir: 文件准备上传到的目录
+            - isPicture: 文件是否为图片
+            - isVideo: 文件是否为视频
+        返回值
+            将返回一个返回值
+            如果成功，mediaId在r['MediaId']中
+        该方法定义在 components/messages.py 文件中
+    '''
+    raise NotImplementedError()
+
+def send_file(self, fileDir, toUserName=None, mediaId=None):
+    ''' 发送附件
+        参数
+            - fileDir:文件准备上传到的目录
+            - mediaId: 文件的mediaId
+                - 如果设置了，文件将不会被上传两次
+            - toUserName: 朋友字典的 'UserName' 
+       该方法定义在 components/messages.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def send_image(self, fileDir, toUserName=None, mediaId=None):
+    ''' 发送图片
+        参数 
+            - fileDir: 文件准备上传到的目录
+                - 如果它是一个gif,请命名为xx.gif
+            - mediaId: 文件的mediaId 
+                - 如果设置了，文件将不会被上传两次
+            - toUserName: 朋友字典的 'UserName'
+        该方法定义在 components/messages.py 文件中
+    '''
+    raise NotImplementedError()
+
+def send_video(self, fileDir=None, toUserName=None, mediaId=None):
+    ''' 发送小视频
+        参数
+            - fileDir: 文件准备上传到的目录
+                如果mediaId已经设置了，则fileDir不是必需的
+            - mediaId: 文件的mediaId 
+                - 如果设置了，文件将不会被上传两次
+            - toUserName: 朋友字典的 'UserName'
+        该方法定义在 components/messages.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def send(self, msg, toUserName=None, mediaId=None):
+    ''' 所有发送方法的包装方法
+        参数
+            - msg: 以不同字符串（表示不同的类型）开头的消息
+                - 类型字符串列表：['@fil@', '@img@', '@msg@', '@vid@]
+                - 分别对应：文件、图片、纯文本、小视频
+                - 如果它们之一没有一个匹配，将视为纯文本发送
+            - toUserName: 朋友字典的 'UserName'
+            - mediaId: - 如果设置了，文件将不会被上传两次
+        该方法定义在 components/messages.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def dump_login_status(self, fileDir=None):
+    ''' 丢弃登陆状态到一个特定的文件
+        for option参数
+            - fileDir: 丢弃登陆状态目录
+        该方法定义在 components/hotreload.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def load_login_status(self, fileDir,
+        loginCallback=None, exitCallback=None):
+    ''' 从特定的文件加载登陆状态
+        参数
+            - fileDir: 加载登陆状态的文件
+            - loginCallback: 成功登陆后的回调
+                - 如果没有设置，则屏幕清空并删除二维码
+            - exitCallback: 登出后的回调
+                - 它包含it contains calling of logout
+        该方法定义在 components/hotreload.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def auto_login(self, hotReload=False, statusStorageDir='itchat.pkl',
+        enableCmdQR=False, picDir=None, qrCallback=None,
+        loginCallback=None, exitCallback=None):
+    ''' 像web端微信一样登陆
+        对于登陆
+            - 一个二维码将会被下载并打开
+            - 然后扫描状态被记录，暂停等待你的确认
+            - 最后登陆并显示你的昵称
+        参数
+            - hotReload: 允许热重加载
+            - statusStorageDir: 状态存储的目录
+            - enableCmdQR:在命令行显示二维码
+                - 可以使用整型数来调整奇怪的字符串长度
+            - picDir:存放二维码的地方
+            - qrCallback:需要接受uuid,状态和二维码的方法（？？）
+            - loginCallback:成功登陆后的回调函数
+                - 如果没有设置，则默认为屏幕清空并删除二维码  
+            - exitCallback:登出后的回调函数
+                - 它包含登出的调用
+        用法
+            ..code::python
+
+                import itchat
+                itchat.auto_login()
+    
+        该方法定义在 components/register.py 文件中 
+        
+    '''
+    raise NotImplementedError()
+    
+def configured_reply(self):
+    ''' 确定消息的类型并回复（如果它的方法有定义）
+        然而，我用了一种奇怪的方式来确定一个消息是否来自公众号
+        我在这没有找到更好的方法
+        我担心主要问题是手机端新朋友添加的误匹配
+        如果你有任何好的想法，请report一个提议，我会很感激的
+    '''
+    raise NotImplementedError()
+
+def msg_register(self, msgType,
+        isFriendChat=False, isGroupChat=False, isMpChat=False):
+    ''' 一个装饰构造器
+        返回一个基于所给信息的特定的装饰器
+    '''
+    raise NotImplementedError()
+
+def run(self, debug=True):
+    ''' 开始自动响应
+        参数
+            - debug: 如果设置了，调试信息将会打印到屏幕
+        该方法定义在 components/register.py 文件中
+    '''
+    raise NotImplementedError()
+    
+def search_friends(self, name=None, userName=None, remarkName=None, nickName=None,
+        wechatAccount=None):
+    return self.storageClass.search_friends(name, userName, remarkName,
+        nickName, wechatAccount)
+def search_chatrooms(self, name=None, userName=None):
+    return self.storageClass.search_chatrooms(name, userName)
+def search_mps(self, name=None, userName=None):
+    return self.storageClass.search_mps(name, userName)
